@@ -13,6 +13,19 @@ export class NfcModel {
   }
 
   /**
+   * ¿En qué tipo de dispositivo estamos?
+   * iPadOS se presenta como "Macintosh", por eso se revisa el táctil.
+   * @returns {"ios"|"android"|"otro"}
+   */
+  static plataforma() {
+    const ua = navigator.userAgent || "";
+    if (/iPhone|iPad|iPod/i.test(ua)) return "ios";
+    if (/Macintosh/i.test(ua) && navigator.maxTouchPoints > 1) return "ios";
+    if (/Android/i.test(ua)) return "android";
+    return "otro";
+  }
+
+  /**
    * Graba una URL en la etiqueta como registro NDEF tipo "url".
    * Chrome se encarga de armar el mensaje NDEF (registro "U").
    * @param {string} url
