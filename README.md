@@ -33,5 +33,5 @@ nfc-prueba/
 3. Elige una etiqueta, toca **Grabar** y acerca la etiqueta.
 4. Para cambiar a dónde lleva: edita `data/destinos.json` en GitHub.
 
-Web NFC solo funciona en Chrome para Android y con HTTPS
+Web NFC solo funciona en Chrome para Android. En iPhone la página detecta el dispositivo y te da la URL para grabarla con la app gratuita NFC Tools; la etiqueta ya grabada se lee sola en cualquier iPhone XS o más nuevo y en Android. Web NFC además exige HTTPS
 (no funciona abriendo el archivo desde el computador).

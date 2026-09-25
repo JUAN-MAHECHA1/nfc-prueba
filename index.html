@@ -48,8 +48,28 @@
       </dl>
     </section>
 
+    <!-- Tarjeta iPhone: se muestra cuando el navegador no tiene Web NFC -->
+    <section id="panelIphone" class="tarjeta" hidden>
+      <h2 class="tarjeta-titulo"><span class="numero">02</span> <span id="panelTitulo">Grabar desde iPhone</span></h2>
+      <p class="nota">Safari y Chrome en iPhone no pueden grabar NFC desde una página web (Apple no lo permite). Pero la etiqueta sí se lee sola en iPhone. Para grabarla usa la app gratuita <strong>NFC Tools</strong>:</p>
+      <ol class="pasos">
+        <li>Toca <strong>Copiar URL</strong>.</li>
+        <li>Abre NFC Tools → <strong>Escribir</strong> → <strong>Añadir un registro</strong> → <strong>URL / URI</strong>.</li>
+        <li>Pega la URL, toca <strong>Escribir</strong> y acerca la etiqueta a la parte superior del iPhone.</li>
+      </ol>
+      <div class="acciones">
+        <button id="btnCopiar" class="boton boton-principal">Copiar URL</button>
+        <div class="acciones-secundarias">
+          <a id="lnkApp" class="boton boton-secundario" href="https://apps.apple.com/app/nfc-tools/id1252962749" target="_blank" rel="noopener">Descargar app</a>
+          <a id="lnkProbar" class="boton boton-secundario" href="#" target="_blank" rel="noopener">Probar enlace</a>
+        </div>
+      </div>
+      <p id="copiado" class="nota nota-ok" role="status" aria-live="polite"></p>
+      <p class="nota">Para leer: con la pantalla encendida, acerca la etiqueta a la parte superior del iPhone (iPhone XS o más nuevo) y toca la notificación.</p>
+    </section>
+
     <!-- Tarjeta 2: acciones NFC -->
-    <section class="tarjeta">
+    <section id="panelNfc" class="tarjeta">
       <h2 class="tarjeta-titulo"><span class="numero">02</span> Etiqueta</h2>
 
       <div id="anillo" class="anillo" data-activo="no" aria-hidden="true">
@@ -74,7 +94,7 @@
     </section>
 
     <footer class="pie">
-      Funciona en Chrome para Android · Etiquetas NTAG213/215/216
+      Graba en Chrome Android o con NFC Tools en iPhone · Se lee en ambos · NTAG213/215/216
     </footer>
   </main>
 </body>
