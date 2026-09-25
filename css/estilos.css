@@ -345,6 +345,28 @@ input::placeholder { color: var(--texto-tenue); }
   letter-spacing: 0.02em;
 }
 
+/* ---------- 9b. Panel iPhone ---------- */
+.nota {
+  margin: 0 0 16px;
+  font-size: 0.9rem;
+  color: var(--texto-suave);
+}
+.nota:empty { display: none; }
+.nota-ok { margin: -4px 0 16px; color: var(--ok); }
+.nota strong { color: var(--texto); font-weight: 600; }
+
+.pasos {
+  margin: 0 0 20px;
+  padding-left: 22px;
+  display: grid;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: var(--texto-suave);
+}
+.pasos li::marker { color: var(--oro); font-family: var(--mono); }
+.pasos strong { color: var(--texto); font-weight: 600; }
+#panelIphone .acciones { margin-bottom: 16px; }
+
 /* ---------- 10. Página puente (ir.html) ---------- */
 .pagina-puente { display: grid; place-items: center; }
 
