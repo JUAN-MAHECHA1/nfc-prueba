@@ -20,6 +20,13 @@ export class GrabadorView {
     this.estado       = document.getElementById("estado");
     this.estadoTexto  = document.getElementById("estadoTexto");
     this.aviso        = document.getElementById("aviso");
+    this.panelNfc     = document.getElementById("panelNfc");
+    this.panelIphone  = document.getElementById("panelIphone");
+    this.panelTitulo  = document.getElementById("panelTitulo");
+    this.copiado      = document.getElementById("copiado");
+    this.lnkApp       = document.getElementById("lnkApp");
+    this.lnkProbar    = document.getElementById("lnkProbar");
+    this.btnCopiar    = document.getElementById("btnCopiar");
 
     this.botones = {
       grabar:   document.getElementById("btnGrabar"),
@@ -34,6 +41,7 @@ export class GrabadorView {
   alLeer(fn)            { this.botones.leer.addEventListener("click", fn); }
   alBorrar(fn)          { this.botones.borrar.addEventListener("click", fn); }
   alCancelar(fn)        { this.botones.cancelar.addEventListener("click", fn); }
+  alCopiar(fn)          { this.btnCopiar.addEventListener("click", fn); }
   alCambiarDestino(fn)  {
     this.selDestino.addEventListener("change", fn);
     this.inputUrl.addEventListener("input", fn);
@@ -63,6 +71,29 @@ export class GrabadorView {
     this.grupoUrl.hidden = !personal;
     this.urlFinal.textContent = urlGrabar || "—";
     this.destinoFinal.textContent = destino ? this.#acortar(destino) : "—";
+    // Panel iPhone: el botón "Probar" abre la URL que se grabaría
+    this.lnkProbar.href = urlGrabar || "#";
+    this.copiado.textContent = "";
+  }
+
+  // ---------- Modo sin Web NFC (iPhone, computador…) ----------
+  /**
+   * Oculta los botones de Web NFC y muestra el panel para grabar
+   * con una app (NFC Tools). En Android sin Chrome, enlaza a Play Store.
+   */
+  mostrarModoSinNfc(plataforma) {
+    this.panelNfc.hidden = true;
+    this.panelIphone.hidden = false;
+    if (plataforma === "android") {
+      this.panelTitulo.textContent = "Grabar con una app";
+      this.lnkApp.href = "https://play.google.com/store/apps/details?id=com.wakdev.wdnfc";
+    } else if (plataforma === "otro") {
+      this.panelTitulo.textContent = "Grabar desde el celular";
+    }
+  }
+
+  mostrarCopiado(mensaje) {
+    this.copiado.textContent = mensaje;
   }
 
   // ---------- Estado y mensajes ----------
