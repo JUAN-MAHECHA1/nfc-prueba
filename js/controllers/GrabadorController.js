@@ -23,13 +23,20 @@ export class GrabadorController {
     this.vista.alBorrar(() => this.borrar());
     this.vista.alCancelar(() => this.cancelar());
     this.vista.alCambiarDestino(() => this.actualizarVistaPrevia());
+    this.vista.alCopiar(() => this.copiar());
 
-    // 2. ¿Hay NFC en este navegador?
-    if (!this.nfc.soportado()) {
+    // 2. ¿Hay Web NFC en este navegador?
+    //    Si no (iPhone, computador, Android sin Chrome), se graba con una app.
+    const soportado = this.nfc.soportado();
+    if (!soportado) {
+      const plataforma = NfcModel.plataforma();
       this.vista.deshabilitarNfc();
-      this.vista.mostrarAviso(
-        "Este navegador no puede grabar NFC. Abre esta página en Chrome para Android."
-      );
+      this.vista.mostrarModoSinNfc(plataforma);
+      if (plataforma === "android") {
+        this.vista.mostrarAviso("Abre esta página en Chrome para grabar directo, o usa NFC Tools.");
+      } else if (plataforma === "otro") {
+        this.vista.mostrarAviso("Este navegador no graba NFC. Copia la URL y grábala con NFC Tools desde tu celular.");
+      }
     }
 
     // 3. Cargar los destinos para el selector
@@ -42,7 +49,7 @@ export class GrabadorController {
     }
 
     this.actualizarVistaPrevia();
-    this.vista.mostrarEstado("neutral", "Elige un destino y toca Grabar.");
+    if (soportado) this.vista.mostrarEstado("neutral", "Elige un destino y toca Grabar.");
   }
 
   // ---------- Lógica de URLs ----------
@@ -104,6 +111,31 @@ export class GrabadorController {
       (signal) => this.nfc.borrar(signal),
       () => "Etiqueta borrada. Ya puedes grabarle otra URL."
     );
+  }
+
+  /** Copia la URL al portapapeles (para pegarla en NFC Tools). */
+  async copiar() {
+    const url = this.urlParaGrabar();
+    if (!DestinosModel.esUrlSegura(url)) {
+      this.vista.mostrarCopiado("Escribe una URL válida que empiece por https://");
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(url);
+    } catch {
+      // Respaldo para navegadores viejos
+      const area = document.createElement("textarea");
+      area.value = url;
+      area.setAttribute("readonly", "");
+      area.style.position = "fixed";
+      area.style.opacity = "0";
+      document.body.append(area);
+      area.select();
+      area.setSelectionRange(0, url.length);
+      document.execCommand("copy");
+      area.remove();
+    }
+    this.vista.mostrarCopiado("URL copiada. Ahora pégala en NFC Tools.");
   }
 
   cancelar() {
