@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0c0d10">
+  <title>Grabador NFC</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2216%22 fill=%22%230c0d10%22/%3E%3Ccircle cx=%2232%22 cy=%2232%22 r=%2214%22 fill=%22none%22 stroke=%22%23c8a96a%22 stroke-width=%223%22/%3E%3Ccircle cx=%2232%22 cy=%2232%22 r=%2222%22 fill=%22none%22 stroke=%22%23c8a96a%22 stroke-opacity=%22.45%22 stroke-width=%222%22/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/estilos.css">
+  <!-- type="module" permite usar import/export entre archivos -->
+  <script type="module" src="js/grabador.js"></script>
+</head>
+<body class="pagina-grabador">
+  <main class="contenedor">
+
+    <header class="encabezado">
+      <p class="sobretitulo">NFC · Estudio</p>
+      <h1>Grabador de etiquetas</h1>
+      <p class="subtitulo">Elige un destino, acerca la etiqueta y listo.</p>
+    </header>
+
+    <p id="aviso" class="aviso" hidden></p>
+
+    <!-- Tarjeta 1: qué se va a grabar -->
+    <section class="tarjeta">
+      <h2 class="tarjeta-titulo"><span class="numero">01</span> Destino</h2>
+
+      <label class="etiqueta" for="selDestino">Etiqueta</label>
+      <div class="selector">
+        <select id="selDestino"></select>
+      </div>
+
+      <div id="grupoUrl" class="grupo" hidden>
+        <label class="etiqueta" for="inputUrl">URL personalizada</label>
+        <input id="inputUrl" type="url" inputmode="url" placeholder="https://…" autocomplete="off">
+      </div>
+
+      <dl class="resumen">
+        <div>
+          <dt>Se grabará</dt>
+          <dd id="urlFinal" class="mono">—</dd>
+        </div>
+        <div>
+          <dt>Llevará a</dt>
+          <dd id="destinoFinal">—</dd>
+        </div>
+      </dl>
+    </section>
+
+    <!-- Tarjeta 2: acciones NFC -->
+    <section class="tarjeta">
+      <h2 class="tarjeta-titulo"><span class="numero">02</span> Etiqueta</h2>
+
+      <div id="anillo" class="anillo" data-activo="no" aria-hidden="true">
+        <span class="onda"></span>
+        <span class="onda"></span>
+        <span class="nucleo">NFC</span>
+      </div>
+
+      <div id="estado" class="estado" data-tipo="neutral" role="status" aria-live="polite">
+        <span class="punto"></span>
+        <span id="estadoTexto">Cargando…</span>
+      </div>
+
+      <div class="acciones">
+        <button id="btnGrabar" class="boton boton-principal">Grabar etiqueta</button>
+        <div class="acciones-secundarias">
+          <button id="btnLeer" class="boton boton-secundario">Leer</button>
+          <button id="btnBorrar" class="boton boton-peligro">Borrar</button>
+        </div>
+        <button id="btnCancelar" class="boton boton-fantasma" hidden>Cancelar</button>
+      </div>
+    </section>
+
+    <footer class="pie">
+      Funciona en Chrome para Android · Etiquetas NTAG213/215/216
+    </footer>
+  </main>
+</body>
+</html>

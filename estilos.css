@@ -1,0 +1,361 @@
+/* =============================================================
+   ESTILOS · Grabador NFC
+   Estética: tinta oscura, marfil y oro viejo.
+   Sin librerías: solo variables CSS y fuentes del sistema.
+   ============================================================= */
+
+/* ---------- 1. Paleta y medidas (cámbialas aquí) ---------- */
+:root {
+  --fondo:         #0c0d10;
+  --fondo-alto:    #14161b;
+  --superficie:    rgba(255, 255, 255, 0.035);
+  --borde:         rgba(255, 255, 255, 0.08);
+  --borde-fuerte:  rgba(255, 255, 255, 0.16);
+
+  --texto:         #ece7dd;   /* marfil */
+  --texto-suave:   #9b978f;
+  --texto-tenue:   #6b6862;
+
+  --oro:           #c8a96a;   /* acento principal */
+  --oro-claro:     #e2c98f;
+  --oro-sombra:    rgba(200, 169, 106, 0.28);
+
+  --ok:            #8fbf9a;
+  --error:         #d98a7e;
+
+  --radio:         18px;
+  --radio-sm:      12px;
+
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  --sans:  system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  --mono:  ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+/* ---------- 2. Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+html { -webkit-text-size-adjust: 100%; background: var(--fondo); }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--texto);
+  background:
+    radial-gradient(1200px 600px at 85% -10%, rgba(200, 169, 106, 0.10), transparent 60%),
+    radial-gradient(900px 500px at -10% 110%, rgba(120, 140, 180, 0.07), transparent 60%),
+    var(--fondo);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2 { font-family: var(--serif); font-weight: 400; margin: 0; }
+
+.contenedor {
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 48px 16px 32px;
+}
+
+/* ---------- 3. Encabezado ---------- */
+.encabezado { margin-bottom: 28px; }
+
+.sobretitulo {
+  margin: 0 0 10px;
+  font-size: 0.72rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--oro);
+}
+
+.encabezado h1 {
+  font-size: clamp(2rem, 8vw, 2.6rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.subtitulo {
+  margin: 10px 0 0;
+  color: var(--texto-suave);
+}
+
+/* ---------- 4. Tarjetas ---------- */
+.tarjeta {
+  position: relative;
+  padding: 24px 20px;
+  margin-bottom: 16px;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Línea dorada fina en el borde superior */
+.tarjeta::before {
+  content: "";
+  position: absolute;
+  inset: 0 24px auto;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--oro-sombra), transparent);
+}
+
+.tarjeta-titulo {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  font-size: 1.35rem;
+  margin-bottom: 20px;
+}
+
+.numero {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: var(--oro);
+}
+
+/* ---------- 5. Formularios ---------- */
+.etiqueta {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--texto-tenue);
+}
+
+.grupo { margin-top: 16px; }
+
+select, input {
+  width: 100%;
+  padding: 14px 16px;
+  font: inherit;
+  color: var(--texto);
+  background: var(--fondo-alto);
+  border: 1px solid var(--borde-fuerte);
+  border-radius: var(--radio-sm);
+  outline: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+
+select:focus, input:focus {
+  border-color: var(--oro);
+  box-shadow: 0 0 0 4px var(--oro-sombra);
+}
+
+select:disabled { opacity: .5; }
+
+/* Flecha personalizada del select */
+.selector { position: relative; }
+.selector select { appearance: none; -webkit-appearance: none; padding-right: 44px; }
+.selector::after {
+  content: "";
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border-right: 1.5px solid var(--oro);
+  border-bottom: 1.5px solid var(--oro);
+  transform: translateY(-70%) rotate(45deg);
+  pointer-events: none;
+}
+
+input::placeholder { color: var(--texto-tenue); }
+
+/* Resumen de lo que se grabará */
+.resumen {
+  margin: 20px 0 0;
+  padding-top: 16px;
+  border-top: 1px dashed var(--borde);
+  display: grid;
+  gap: 12px;
+}
+.resumen dt {
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--texto-tenue);
+}
+.resumen dd {
+  margin: 2px 0 0;
+  color: var(--texto);
+  word-break: break-all;
+}
+.mono { font-family: var(--mono); font-size: 0.82rem; color: var(--oro-claro) !important; }
+
+/* ---------- 6. Anillo NFC animado ---------- */
+.anillo {
+  position: relative;
+  width: 132px;
+  height: 132px;
+  margin: 4px auto 24px;
+  display: grid;
+  place-items: center;
+}
+
+.nucleo {
+  position: relative;
+  z-index: 1;
+  width: 76px;
+  height: 76px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  letter-spacing: 0.12em;
+  color: var(--oro-claro);
+  background: radial-gradient(circle at 30% 30%, #22242b, #121317);
+  border: 1px solid var(--oro-sombra);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 10px 30px rgba(0,0,0,.4);
+}
+
+.onda {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid var(--oro);
+  opacity: 0;
+}
+
+/* Cuando espera la etiqueta, las ondas laten */
+.anillo[data-activo="si"] .onda { animation: latido 2.2s cubic-bezier(.2,.6,.3,1) infinite; }
+.anillo[data-activo="si"] .onda:nth-child(2) { animation-delay: 1.1s; }
+.anillo[data-activo="si"] .nucleo { border-color: var(--oro); }
+
+@keyframes latido {
+  0%   { transform: scale(.55); opacity: .8; }
+  100% { transform: scale(1.15); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anillo[data-activo="si"] .onda { animation: none; opacity: .4; transform: scale(.9); }
+}
+
+/* ---------- 7. Estado ---------- */
+.estado {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  font-size: 0.92rem;
+  color: var(--texto-suave);
+  background: var(--fondo-alto);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-sm);
+  word-break: break-word;
+  transition: border-color .3s, color .3s;
+}
+
+.punto {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  margin-top: 7px;
+  border-radius: 50%;
+  background: var(--texto-tenue);
+}
+
+.estado[data-tipo="espera"] { color: var(--texto); border-color: var(--oro-sombra); }
+.estado[data-tipo="espera"] .punto { background: var(--oro); animation: parpadeo 1s ease-in-out infinite alternate; }
+.estado[data-tipo="ok"]     { color: var(--ok); border-color: rgba(143,191,154,.3); }
+.estado[data-tipo="ok"] .punto { background: var(--ok); }
+.estado[data-tipo="error"]  { color: var(--error); border-color: rgba(217,138,126,.3); }
+.estado[data-tipo="error"] .punto { background: var(--error); }
+
+@keyframes parpadeo { to { opacity: .25; } }
+
+/* ---------- 8. Botones ---------- */
+.acciones { display: grid; gap: 10px; }
+.acciones-secundarias { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+.boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 52px;
+  padding: 0 20px;
+  font: inherit;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform .15s, background .2s, border-color .2s, box-shadow .2s, opacity .2s;
+  -webkit-tap-highlight-color: transparent;
+}
+.boton:active:not(:disabled) { transform: scale(.98); }
+.boton:disabled { opacity: .35; cursor: not-allowed; }
+.boton:focus-visible { outline: 2px solid var(--oro); outline-offset: 3px; }
+
+.boton-principal {
+  color: #1a1509;
+  font-weight: 600;
+  background: linear-gradient(180deg, var(--oro-claro), var(--oro));
+  box-shadow: 0 8px 24px var(--oro-sombra), inset 0 1px 0 rgba(255,255,255,.4);
+}
+.boton-principal:hover:not(:disabled) { box-shadow: 0 10px 32px var(--oro-sombra), inset 0 1px 0 rgba(255,255,255,.5); }
+
+.boton-secundario {
+  color: var(--texto);
+  background: transparent;
+  border-color: var(--borde-fuerte);
+}
+.boton-secundario:hover:not(:disabled) { border-color: var(--oro); }
+
+.boton-peligro {
+  color: var(--error);
+  background: transparent;
+  border-color: rgba(217,138,126,.3);
+}
+.boton-peligro:hover:not(:disabled) { border-color: var(--error); }
+
+.boton-fantasma {
+  color: var(--texto-suave);
+  background: transparent;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* ---------- 9. Aviso y pie ---------- */
+.aviso {
+  margin: 0 0 16px;
+  padding: 14px 16px;
+  font-size: 0.9rem;
+  color: var(--oro-claro);
+  background: rgba(200,169,106,.08);
+  border: 1px solid var(--oro-sombra);
+  border-radius: var(--radio-sm);
+}
+
+.pie {
+  margin-top: 28px;
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--texto-tenue);
+  letter-spacing: 0.02em;
+}
+
+/* ---------- 10. Página puente (ir.html) ---------- */
+.pagina-puente { display: grid; place-items: center; }
+
+.puente {
+  width: 100%;
+  max-width: 400px;
+  padding: 32px 16px;
+  text-align: center;
+}
+.puente h1 { font-size: 1.9rem; margin-top: 4px; }
+.puente .boton { margin-top: 28px; }
+
+.pagina-puente[data-estado="error"] .anillo .onda { animation: none; }
+.pagina-puente[data-estado="error"] .nucleo { color: var(--error); border-color: rgba(217,138,126,.4); }
